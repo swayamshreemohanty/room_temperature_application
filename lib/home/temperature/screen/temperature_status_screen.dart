@@ -42,7 +42,7 @@ class _TemperatureStatusScreenState extends State<TemperatureStatusScreen> {
             } else {
               final tempData = snapshot.data;
               return TemperatureDataWidget(
-                temperatureData: tempData?.temperature,
+                temperatureData: tempData,
               );
             }
           }

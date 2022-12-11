@@ -1,9 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:home_auto/home/temperature/model/temperature_model.dart';
+import 'package:home_auto/utility/time_formatter.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class TemperatureDataWidget extends StatelessWidget {
-  final String? temperatureData;
+  final TemperatureModel? temperatureData;
   const TemperatureDataWidget({
     Key? key,
     required this.temperatureData,
@@ -12,26 +15,26 @@ class TemperatureDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            "Temperature",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 30,
-            ),
-          ),
-          const SizedBox(height: 10),
-          temperatureData == null
-              ? Text(
-                  "No Data",
+      child: temperatureData == null
+          ? Text(
+              "No Data",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: temperatureData == null ? 20 : 40,
+              ),
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Temperature",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: temperatureData == null ? 20 : 40,
+                    fontSize: 30,
                   ),
-                )
-              : SfRadialGauge(
+                ),
+                const SizedBox(height: 10),
+                SfRadialGauge(
                   animationDuration: 3500,
                   enableLoadingAnimation: true,
                   axes: <RadialAxis>[
@@ -91,19 +94,44 @@ class TemperatureDataWidget extends StatelessWidget {
                         ),
                         GaugeAnnotation(
                           angle: 90,
-                          positionFactor: 0.8,
+                          positionFactor: 0.6,
                           widget: Text(
-                            temperatureData!,
+                            temperatureData!.temperature,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
                           ),
-                        )
+                        ),
+                        const GaugeAnnotation(
+                          angle: 90,
+                          positionFactor: 1,
+                          widget: Text(
+                            "Last updated at",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        GaugeAnnotation(
+                          angle: 90,
+                          positionFactor: 1.2,
+                          widget: Text(
+                            FormatDate.ddMMYYYYHHmmss(
+                                temperatureData!.lastUpdateAt),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                       ],
                       pointers: <GaugePointer>[
                         NeedlePointer(
-                          value: double.tryParse(temperatureData!) ?? 0,
+                          value:
+                              double.tryParse(temperatureData!.temperature) ??
+                                  0,
                           needleStartWidth: 1,
                           needleEndWidth: 8,
                           animationType: AnimationType.easeOutBack,
@@ -126,8 +154,8 @@ class TemperatureDataWidget extends StatelessWidget {
                     )
                   ],
                 ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }

@@ -4,6 +4,9 @@ class FormatDate {
   static String selectedDateYYYYMMDD(DateTime date) =>
       DateFormat('yyyy-MM-dd').format(date);
 
+  static String ddMMYYYYHHmmss(DateTime date) =>
+      DateFormat("dd-MM-yyyy HH:mm:ss").format(date);
+
   static String date(String date) =>
       DateFormat.yMMMd('en_US').format(DateTime.parse(date));
 
