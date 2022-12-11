@@ -21,7 +21,7 @@ class ThemeSpinner extends StatelessWidget {
       height: height,
       width: width,
       child: SpinKitCircle(
-        color: color ?? Colors.amber,
+        color: color ?? Theme.of(context).primaryColor,
         size: size,
       ),
     );
