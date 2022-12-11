@@ -9,7 +9,7 @@ class TemperatureStatusRepository {
 
   Stream<TemperatureModel> streamTemperatureData() {
     channel = IOWebSocketChannel.connect(
-        'ws://192.168.0.60:8000/swayamroom/v1/temp/ws');
+        'ws://192.168.0.2:8000/swayamroom/v1/temp/ws');
     channel.sink.add('start!');
     return channel.stream
         .map((event) => TemperatureModel.fromMap(json.decode(event)['data']));
